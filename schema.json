@@ -1,0 +1,894 @@
+  {
+    "$id": "http://www.xtensible.net/md3i",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "title": "PublishMeasurementValueRequest v2",
+    "properties": {
+      "PublishMeasurementValueRequest": {
+        "$ref": "#/definitions/PublishMeasurementValueRequest"
+      }
+    },
+    "definitions": {
+      "PublishMeasurementValueRequest": {
+        "type": "array",
+        "items": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/AnalogValue"
+            },
+            {
+              "$ref": "#/definitions/AccumulatorValue"
+            },
+            {
+              "$ref": "#/definitions/DiscreteValue"
+            },
+            {
+              "$ref": "#/definitions/StringMeasurementValue"
+            }
+                   
+          ]
+        },
+        "required": [
+          "AnalogValue",
+          "AccumulatorValue",
+          "DiscreteValue",
+          "StringMeasurementValue"
+        ]
+      },
+      "MeasurementValueQuality": {
+        "description": "Measurement quality flags. Bits 0-10 are defined for substation automation in draft IEC 61850 part 7-3. Bits 11-15 are reserved for future expansion by that document. Bits 16-31 are reserved for EMS applications.  ",
+        "type": "object",
+        "properties": {},
+        "allOf": [
+          {
+            "properties": {
+              "measurementValueQualityCode": {
+                "type": "string", "minLength": 1
+              }
+            }
+          },
+          {
+            "$ref": "#/definitions/Quality61850"
+          }
+        ]
+      },
+      "AnalogValue": {
+        "description": "AnalogValue represents an analog MeasurementValue.",
+        "type": "object",
+        "properties": {},
+        "allOf": [
+          {
+            "properties": {
+              "value": {
+                "description": "[ActivePower]     [ActivePowerChangeRate]     [ActivePowerPerCurrentFlow]     [ActivePowerPerFrequency]     [Admittance]     [AngleDegrees]     [AngleRadians]     [ApparentPower]     [Area]     [Capacitance]     [CapacitancePerLength]     [Conductance]   ",
+                "type": "number"
+              },
+              "Analog": {
+                "description": "Analog",
+                "$ref": "#/definitions/Analog"
+              }
+            }
+          },
+          {
+            "$ref": "#/definitions/MeasurementValue"
+          }
+        ]
+      },
+      "AccumulatorValue": {
+        "description": "AccumulatorValue represents an accumulated (counted) MeasurementValue.  ",
+        "type": "object",
+        "properties": {},
+        "allOf": [
+          {
+            "properties": {
+              "value": {
+                "description": "[IntegerQuantity]     [Classification]     [AccumulatorLimit] The value to supervise against. The value is positive.    [AccumulatorValue] The value to supervise. The value is positive.    [Command] The value representing the actuator output.      [Discre",
+                "type": "integer"
+              },
+              "Accumulator": {
+                "description": "Accumulator",
+                "$ref": "#/definitions/Accumulator"
+              }
+            }
+          },
+          {
+            "$ref": "#/definitions/MeasurementValue"
+          }
+        ]
+      },
+      "MeasurementValue": {
+        "description": "The current state for a measurement. A state value is an instance of a measurement from a specific source. Measurements can be associated with many state values, each representing a different source for the measurement.  ",
+        "type": "object",
+        "properties": {},
+        "allOf": [
+          {
+            "properties": {
+              "timeStamp": {
+                "description": "[Control] The last time a control output was sent.      [MeasurementValue] The time when the value was last updated    [MeasurementValue] The time when the value was last updated    [NetworkModelProjectChangeVersion] The date/time this version was finaliz",
+                "type": "string", "minLength": 1
+              },
+              "MeasurementValueQuality": {
+                "description": "MeasurementValueQuality",
+                "$ref": "#/definitions/MeasurementValueQuality"
+              },
+              "equipment": {
+                "description": "Equipment",
+                "$ref": "#/definitions/Equipment"
+              }
+            }
+          },
+          {
+            "$ref": "#/definitions/IdentifiedObject"
+          }
+        ]
+      },
+      "Measurement": {
+        "description": "A Measurement represents any measured, calculated or non-measured non-calculated quantity. Any piece of equipment may contain Measurements, e.g. a substation may have temperature measurements and door open indications, a transformer may have oil temperatu",
+        "type": "object",
+        "properties": {},
+        "allOf": [
+          {
+            "properties": {
+              "measurementType": {
+                "description": "[Measurement] Specifies the type of measurement.  For example, this specifies if the measurement represents an indoor temperature, outdoor temperature, bus voltage, line flow, etc.        ",
+                "type": "string", "minLength": 1
+              },
+              "unitMultiplier": {
+                "description": "[ProtectionEquipment] The unit multiplier of the value.    [Control] The unit multiplier of the controlled quantity.    [Measurement] The unit multiplier of the measured quantity.    ",
+                "$ref": "#/definitions/UnitMultiplier"
+              },
+              "unitSymbol": {
+                "description": "[ProtectionEquipment] The unit of measure of the value.    [Control] The unit of measure of the controlled quantity.    [Measurement] The unit of measure of the measured quantity.    [ResourceCapacity] Unit selection for the capacity values.    ",
+                "$ref": "#/definitions/UnitSymbol"
+              },
+              "PowerSystemResource": {
+                "description": "PowerSystemResource",
+                "$ref": "#/definitions/PowerSystemResource"
+              },
+              "MeasurementAction": {
+                "description": "MeasurementAction",
+                "$ref": "#/definitions/MeasurementAction"
+              },
+              "Asset": {
+                "description": "Asset",
+                "$ref": "#/definitions/Asset"
+              }
+              
+            }
+            
+          },
+          {
+            "$ref": "#/definitions/IdentifiedObject"
+          }
+        ]
+      },
+      "IdentifiedObject": {
+        "description": "This is a root class to provide common identification for all classes needing identification and naming attributes.",
+        "type": "object",
+        "properties": {
+          "name": {
+            "description": "[IdentifiedObject] The name is any free human readable and possibly non unique text naming the object.      [Name] Any free text that name the object.      [NameType] Name of the name type.      [NameTypeAuthority] Name of the name type authority.      [D",
+            "type": "string", "minLength": 1
+          },
+          "mRID": {
+            "description": "[IdentifiedObject] Master resource identifier issued by a model authority. The mRID is unique within an exchange context. Global uniqueness is easily achieved by using a UUID,  as specified in RFC 4122, for the mRID. The use of UUID is strongly recommende",
+            "type": "string", "minLength": 1
+          },
+          "description": {
+            "description": "[IdentifiedObject] The description is a free human readable text describing or naming the object. It may be non unique and may not correlate to a naming hierarchy.    [NameType] Description of the name type.      [NameTypeAuthority] Description of the nam",
+            "type": "string", "minLength": 1
+          }
+        }
+               
+      },
+      "PowerSystemResource": {
+        "description": "A power system resource can be an item of equipment such as a switch, an equipment container containing many individual items of equipment such as a substation, or an organisational entity such as sub-control area. Power system resources can have measurem",
+        "type": "object",
+        "properties": {},
+        "allOf": [
+          {
+            "properties": {
+              "Measurements": {
+                "description": "Measurement",
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/Measurement"
+                }
+              },
+              "Assets": {
+                "description": "Asset",
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/Asset"
+                }
+              }
+            }
+          },
+          {
+            "$ref": "#/definitions/IdentifiedObject"
+          }
+        ]
+      },
+      "Equipment": {
+        "description": "The parts of a power system that are physical devices, electronic or mechanical.",
+        "type": "object",
+        "properties": {},
+        "allOf": [
+          {
+            "properties": {
+              "measurementValue": {
+                "description": "MeasurementValue",
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/MeasurementValue"
+                }
+              },
+              "EquipmentContainer": {
+                "description": "EquipmentContainer",
+                "$ref": "#/definitions/EquipmentContainer"
+              },
+              "equipmentAssetAssignment": {
+                "description": "EquipmentAssetAssignment",
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/EquipmentAssetAssignment"
+                }
+              }
+            }
+          },
+          {
+            "$ref": "#/definitions/PowerSystemResource"
+          }
+        ]
+      },
+      "EquipmentContainer": {
+        "description": "A modeling construct to provide a root class for containing equipment. ",
+        "type": "object",
+        "properties": {},
+        "allOf": [
+          {
+            "properties": {
+              "Equipments": {
+                "description": "Equipment",
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/Equipment"
+                }
+              }
+            }
+          },
+          {
+            "$ref": "#/definitions/Equipment"
+          }
+        ]
+      },
+      "ConductingEquipment": {
+        "description": "The parts of the AC power system that are designed to carry current or that are conductively connected through terminals.",
+        "type": "object",
+        "properties": {},
+        "allOf": [
+          {
+            "properties": {
+              "Terminals": {
+                "description": "Terminal",
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/Terminal"
+                }
+              },
+              "ProtectionEquipments": {
+                "description": "ProtectionEquipment",
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/ProtectionEquipment"
+                }
+              }
+            }
+          },
+          {
+            "$ref": "#/definitions/Equipment"
+          }
+        ]
+      },
+      "ProtectionEquipment": {
+        "description": "An electrical device designed to respond to input conditions in a prescribed manner and after specified conditions are met to cause contact operation or similar abrupt change in associated electric control circuits, or simply to display the detected condi",
+        "type": "object",
+        "properties": {},
+        "allOf": [
+          {
+            "properties": {
+              "ConductingEquipments": {
+                "description": "ConductingEquipment",
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/ConductingEquipment"
+                }
+              },
+              "ProtectedSwitches": {
+                "description": "ProtectedSwitch",
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/ProtectedSwitch"
+                }
+              }
+            }
+          },
+          {
+            "$ref": "#/definitions/Equipment"
+          }
+        ]
+      },
+      "ProtectedSwitch": {
+        "description": "A ProtectedSwitch is a switching device that can be operated by ProtectionEquipment.",
+        "type": "object",
+        "properties": {},
+        "allOf": [
+          {
+            "properties": {
+              "OperatedByProtectionEquipment": {
+                "description": "ProtectionEquipment",
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/ProtectionEquipment"
+                }
+              }
+            }
+          },
+          {
+            "$ref": "#/definitions/Switch"
+          }
+        ]
+      },
+      "Switch": {
+        "description": "A generic device designed to close, or open, or both, one or more electric circuits.  All switches are two terminal devices including grounding switches.",
+        "type": "object",
+        "properties": {},
+        "allOf": [
+          {
+            "properties": {
+              "normalOpen": {
+                "description": "[Switch] The attribute is used in cases when no Measurement for the status value is present. If the Switch has a status measurement the Discrete.normalValue is expected to match with the Switch.normalOpen.    [SwitchPhase] Used in cases when no Measuremen",
+                "type": "boolean"
+              },
+              "ratedCurrent": {
+                "description": "[Switch] The maximum continuous current carrying capacity in amps governed by the device material and construction.      [BusbarSectionInfo] Rated current.    [BushingInfo] Rated current for bushing as installed.    [ShuntCompensatorInfo] Rated current.  ",
+                "$ref": "#/definitions/CurrentFlow"
+              },
+              "switchOnCount": {
+                "description": "[ShuntCompensator] The switch on count since the capacitor count was last reset or initialized.    [Switch] The switch on count since the switch was last reset or initialized.    ",
+                "type": "integer"
+              },
+              "switchOnDate": {
+                "description": "[ShuntCompensator] The date and time when the capacitor bank was last switched on.    [Switch] The date and time when the switch was last switched on.    ",
+                "type": "string"
+              },
+              "retained": {
+                "description": "[Switch] Branch is retained in a bus branch model.  The flow through retained switches will normally be calculated in power flow.    ",
+                "type": "boolean"
+              },
+              "open": {
+                "description": "[Switch] The attribute tells if the switch is considered open when used as input to topology processing.    [UnavailabilitySwitchAction] The switch is to be open during the scheduled period.     ",
+                "type": "boolean"
+              }
+            }
+          },
+          {
+            "$ref": "#/definitions/ConductingEquipment"
+          }
+        ]
+      },
+      "DiscreteValue": {
+        "description": "DiscreteValue represents a discrete MeasurementValue.",
+        "type": "object",
+        "properties": {},
+        "allOf": [
+          {
+            "properties": {
+              "value": {
+                "description": "[IntegerQuantity]     [Classification]     [AccumulatorLimit] The value to supervise against. The value is positive.    [AccumulatorValue] The value to supervise. The value is positive.    [Command] The value representing the actuator output.      [Discre",
+                "type": "integer"
+              },
+              "Discrete": {
+                "description": "Discrete",
+                "$ref": "#/definitions/Discrete"
+              }
+            },
+             "required": ["mRID"]
+          },
+          {
+            "$ref": "#/definitions/MeasurementValue"
+          }
+        ]
+      },
+      "EquipmentAssetAssignment": {
+        "type": "object",
+        "properties": {
+          "effectivePeriod": {
+            "description": "[Assignment] Period between the assignment becoming effective and its expiration.    ",
+            "$ref": "#/definitions/DateTimeInterval"
+          },
+          "equipment": {
+            "description": "Equipment",
+            "$ref": "#/definitions/Equipment"
+          },
+          "asset": {
+            "description": "Asset",
+            "$ref": "#/definitions/Asset"
+          }
+        }
+      },
+      "Substation": {
+        "description": "A collection of equipment for purposes other than generation or utilization, through which electric energy in bulk is passed for the purposes of switching or modifying its characteristics.   ",
+        "type": "object",
+        "properties": {},
+        "allOf": [
+          {
+            "properties": {}
+          },
+          {
+            "$ref": "#/definitions/EquipmentContainer"
+          }
+        ]
+      },
+      "StringMeasurementValue": {
+        "description": "StringMeasurementValue represents a measurement value of type string.",
+        "type": "object",
+        "properties": {},
+        "allOf": [
+          {
+            "properties": {
+              "value": {
+                "description": "[StringQuantity]     [UncefactUnitCode]     [ISOAPAddressing]     [StringMeasurementValue] The value to supervise.    [Status] Status value at 'dateTime'; prior status changes may have been kept in instances of activity records associated with the object ",
+                "type": "string"
+              },
+              "StringMeasurement": {
+                "description": "StringMeasurement",
+                "$ref": "#/definitions/StringMeasurement"
+              }
+            }
+          },
+          {
+            "$ref": "#/definitions/MeasurementValue"
+          }
+        ],
+        "required": [
+          "StringMeasurement"
+        ]
+      },
+      "Breaker": {
+        "description": "A mechanical switching device capable of making, carrying, and breaking currents under normal circuit conditions and also making, carrying for a specified time, and breaking currents under specified abnormal circuit conditions e.g.  those of short circuit",
+        "type": "object",
+        "properties": {},
+        "allOf": [
+          {
+            "properties": {
+              "inTransitTime": {
+                "description": "[Breaker] The transition time from open to close.      ",
+                "$ref": "#/definitions/Seconds"
+              }
+            }
+          },
+          {
+            "$ref": "#/definitions/ProtectedSwitch"
+          }
+        ]
+      },
+      "Terminal": {
+        "description": "An AC electrical connection point to a piece of conducting equipment. Terminals are connected at physical connection points called connectivity nodes.",
+        "type": "object",
+        "properties": {
+          "phases": {
+            "description": "[Fault] The phases participating in the fault. The fault connections into these phases are further specified by the type of fault.    [Terminal] Represents the normal network phasing condition.  If the attribute is missing three phases (ABC or ABCN) shall",
+            "$ref": "#/definitions/PhaseCode"
+          },
+          "ConductingEquipment": {
+            "description": "ConductingEquipment",
+            "$ref": "#/definitions/ConductingEquipment"
+          }
+        },
+        "required": [
+          "ConductingEquipment"
+        ]
+      },
+      "Discrete": {
+        "description": "Discrete represents a discrete Measurement, i.e. a Measurement representing discrete values, e.g. a Breaker position.",
+        "type": "object",
+        "properties": {},
+        "allOf": [
+          {
+            "properties": {
+              "DiscreteValues": {
+                "description": "DiscreteValue",
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/DiscreteValue"
+                }
+              }
+            }
+          },
+          {
+            "$ref": "#/definitions/Measurement"
+          }
+        ]
+      },
+      "Analog": {
+        "description": "Analog represents an analog Measurement.  ",
+        "type": "object",
+        "properties": {},
+        "allOf": [
+          {
+            "properties": {}
+          },
+          {
+            "$ref": "#/definitions/Measurement"
+          }
+        ]
+      },
+      "Accumulator": {
+        "description": "Accumulator represents an accumulated (counted) Measurement, e.g. an energy value.",
+        "type": "object",
+        "properties": {},
+        "allOf": [
+          {
+            "properties": {
+              "AccumulatorValues": {
+                "description": "AccumulatorValue",
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/AccumulatorValue"
+                }
+              }
+            }
+          },
+          {
+            "$ref": "#/definitions/Measurement"
+          }
+        ]
+      },
+      "StringMeasurement": {
+        "description": "StringMeasurement represents a measurement with values of type string.",
+        "type": "object",
+        "properties": {},
+        "allOf": [
+          {
+            "properties": {
+              "StringMeasurementValues": {
+                "description": "StringMeasurementValue",
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/StringMeasurementValue"
+                }
+              }
+            }
+          },
+          {
+            "$ref": "#/definitions/Measurement"
+          }
+        ]
+      },
+      "Asset": {
+        "description": "Tangible resource of the utility, including power system equipment, various end devices, cabinets, buildings, etc. For electrical network equipment, the role of the asset is defined through PowerSystemResource and its subclasses, defined mainly in the Wir",
+        "type": "object",
+        "properties": {},
+        "allOf": [
+          {
+            "properties": {
+              "equipmentAssetAssignment": {
+                "description": "EquipmentAssetAssignment",
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/EquipmentAssetAssignment"
+                }
+              },
+              "Measurements": {
+                "description": "Measurement",
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/Measurement"
+                }
+              },
+              "PowerSystemResources": {
+                "description": "PowerSystemResource",
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/PowerSystemResource"
+                }
+              }
+            }
+          },
+          {
+            "$ref": "#/definitions/IdentifiedObject"
+          }
+        ]
+      },
+      "MeasurementAction": {
+        "description": "Measurement taken as a switching step.",
+        "type": "object",
+        "properties": {
+          "Measurement": {
+            "description": "Measurement",
+            "$ref": "#/definitions/Measurement"
+          }
+        }
+      },
+      "DateTimeInterval": {
+        "description": "Interval between two date and time points.  ",
+        "type": "object",
+        "properties": {
+          "start": {
+            "description": "[DateTimeInterval] Start date and time of this interval.      [Market] Market start time.      [MarketStatement] The start of a bill period.      ",
+            "type": "string"
+          },
+          "end": {
+            "description": "[DateTimeInterval] End date and time of this interval.      [Market] Market end time.      [MarketStatement] The end of a bill period.      ",
+            "type": "string"
+          }
+        }
+      },
+      "Quality61850": {
+        "description": "Quality flags in this class are as defined in IEC 61850, except for estimatorReplaced, which has been included in this class for convenience.  ",
+        "type": "object",
+        "properties": {}
+      },
+      "PhaseCode": {
+        "description": "An unordered enumeration of phase identifiers.  Allows designation of phases for both transmission and distribution equipment, circuits and loads.   The enumeration, by itself, does not describe how the phases are connected together or connected to ground",
+        "type": "string",
+        "enum": [
+          "A",
+          "AB",
+          "ABC",
+          "ABCN",
+          "ABN",
+          "AC",
+          "ACN",
+          "AN",
+          "B",
+          "BC",
+          "BCN",
+          "BN",
+          "C",
+          "CN",
+          "N",
+          "none",
+          "s1",
+          "s12",
+          "s12N",
+          "s1N",
+          "s2",
+          "s2N",
+          "X",
+          "XN",
+          "XY",
+          "XYN"
+        ]
+      },
+      "UnitMultiplier": {
+        "description": "The unit multipliers defined for the CIM.  When applied to unit symbols that already contain a multiplier, both multipliers are used. For example, to exchange kilograms using unit symbol of kg, one uses the \"none\" multiplier, to exchange metric ton (Mg)",
+        "type": "string",
+        "enum": [
+          "a",
+          "c",
+          "d",
+          "da",
+          "E",
+          "f",
+          "G",
+          "h",
+          "k",
+          "m",
+          "M",
+          "micro",
+          "n",
+          "none",
+          "P",
+          "p",
+          "T",
+          "Y",
+          "y",
+          "Z",
+          "z"
+        ]
+      },
+      "UnitSymbol": {
+        "description": "The units defined for usage in the CIM.",
+        "type": "string",
+        "enum": [
+          "A",
+          "A2",
+          "A2h",
+          "A2s",
+          "Ah",
+          "anglemin",
+          "anglesec",
+          "APerA",
+          "APerm",
+          "As",
+          "bar",
+          "Bq",
+          "Btu",
+          "C",
+          "cd",
+          "character",
+          "charPers",
+          "cosPhi",
+          "count",
+          "CPerkg",
+          "CPerm2",
+          "CPerm3",
+          "d",
+          "dB",
+          "dBm",
+          "deg",
+          "degC",
+          "F",
+          "FPerm",
+          "ft3",
+          "G",
+          "gal",
+          "gPerg",
+          "Gy",
+          "GyPers",
+          "H",
+          "h",
+          "ha",
+          "HPerm",
+          "Hz",
+          "HzPerHz",
+          "HzPers",
+          "J",
+          "JPerK",
+          "JPerkg",
+          "JPerkgK",
+          "JPerm2",
+          "JPerm3",
+          "JPermol",
+          "JPermolK",
+          "JPers",
+          "K",
+          "kat",
+          "katPerm3",
+          "kg",
+          "kgm",
+          "kgm2",
+          "kgPerJ",
+          "kgPerm3",
+          "kn",
+          "KPers",
+          "l",
+          "lm",
+          "lPerh",
+          "lPerl",
+          "lPers",
+          "lx",
+          "m",
+          "M",
+          "m2",
+          "m2Pers",
+          "m3",
+          "m3Compensated",
+          "m3Perh",
+          "m3Perkg",
+          "m3Pers",
+          "m3Uncompensated",
+          "min",
+          "mmHg",
+          "mol",
+          "molPerkg",
+          "molPerm3",
+          "molPermol",
+          "mPerm3",
+          "mPers",
+          "mPers2",
+          "Mx",
+          "N",
+          "Nm",
+          "none",
+          "NPerm",
+          "Oe",
+          "ohm",
+          "ohmm",
+          "ohmPerm",
+          "onePerHz",
+          "onePerm",
+          "Pa",
+          "PaPers",
+          "Pas",
+          "ppm",
+          "Q",
+          "Qh",
+          "rad",
+          "radPers",
+          "radPers2",
+          "rev",
+          "rotPers",
+          "s",
+          "S",
+          "SPerm",
+          "sPers",
+          "sr",
+          "Sv",
+          "T",
+          "therm",
+          "tonne",
+          "V",
+          "V2",
+          "V2h",
+          "VA",
+          "VAh",
+          "VAr",
+          "VArh",
+          "Vh",
+          "VPerHz",
+          "VPerm",
+          "VPerV",
+          "VPerVA",
+          "VPerVAr",
+          "Vs",
+          "W",
+          "Wb",
+          "Wh",
+          "WPerA",
+          "WPerm2",
+          "WPerm2sr",
+          "WPermK",
+          "WPers",
+          "WPersr",
+          "WPerW"
+        ]
+      },
+      "CurrentFlow": {
+        "description": "Electrical current with sign convention: positive flow is out of the conducting equipment into the connectivity node. Can be both AC and DC.",
+        "type": "object",
+        "properties": {
+          "multiplier": {
+            "description": "[ActivePower]     [ActivePowerChangeRate]     [ActivePowerPerCurrentFlow]     [ActivePowerPerFrequency]     [Admittance]     [AngleDegrees]     [AngleRadians]     [ApparentPower]     [Area]     [Capacitance]     [CapacitancePerLength]     [Conductance]   ",
+            "$ref": "#/definitions/UnitMultiplier"
+          },
+          "uncefactUnitCode": {
+            "description": "[ActivePower]     [CurrentFlow]     [RealEnergy]     [Voltage]     [Measurement]     ",
+            "$ref": "#/definitions/UncefactUnitCode"
+          },
+          "unitSymbolUnit": {
+            "description": "[ActivePower]     [ActivePowerChangeRate]     [ActivePowerPerCurrentFlow]     [ActivePowerPerFrequency]     [Admittance]     [AngleDegrees]     [AngleRadians]     [ApparentPower]     [Area]     [Capacitance]     [CapacitancePerLength]     [Conductance]   ",
+            "$ref": "#/definitions/UnitSymbol"
+          },
+          "value": {
+            "description": "[ActivePower]     [ActivePowerChangeRate]     [ActivePowerPerCurrentFlow]     [ActivePowerPerFrequency]     [Admittance]     [AngleDegrees]     [AngleRadians]     [ApparentPower]     [Area]     [Capacitance]     [CapacitancePerLength]     [Conductance]   ",
+            "type": "number"
+          }
+        }
+      },
+      "Seconds": {
+        "description": "Time, in seconds.  ",
+        "type": "object",
+        "properties": {
+          "value": {
+            "description": "[ActivePower]     [ActivePowerChangeRate]     [ActivePowerPerCurrentFlow]     [ActivePowerPerFrequency]     [Admittance]     [AngleDegrees]     [AngleRadians]     [ApparentPower]     [Area]     [Capacitance]     [CapacitancePerLength]     [Conductance]   ",
+            "type": "number"
+          },
+          "unitSymbolUnit": {
+            "description": "[ActivePower]     [ActivePowerChangeRate]     [ActivePowerPerCurrentFlow]     [ActivePowerPerFrequency]     [Admittance]     [AngleDegrees]     [AngleRadians]     [ApparentPower]     [Area]     [Capacitance]     [CapacitancePerLength]     [Conductance]   ",
+            "$ref": "#/definitions/UnitSymbol"
+          },
+          "multiplier": {
+            "description": "[ActivePower]     [ActivePowerChangeRate]     [ActivePowerPerCurrentFlow]     [ActivePowerPerFrequency]     [Admittance]     [AngleDegrees]     [AngleRadians]     [ApparentPower]     [Area]     [Capacitance]     [CapacitancePerLength]     [Conductance]   ",
+            "$ref": "#/definitions/UnitMultiplier"
+          }
+        }
+      },
+      "UncefactUnitCode": {
+        "description": "Contains a string value for units and multipliers from a list maintained by UN/CEFACT and described in recommendation No. 20, \"Codes for Units of Measure Used in International Trade\". Refer to the UN/CEFACT recommendation for details.",
+        "type": "object",
+        "properties": {
+          "value": {
+            "description": "[StringQuantity]     [UncefactUnitCode]     [ISOAPAddressing]     [StringMeasurementValue] The value to supervise.    [Status] Status value at 'dateTime'; prior status changes may have been kept in instances of activity records associated with the object ",
+            "type": "string"
+          }
+        },
+        "required": [
+          "value"
+        ]
+      }
+    },
+      "required": ["PublishMeasurementValueRequest"]
+  }

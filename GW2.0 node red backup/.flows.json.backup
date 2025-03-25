@@ -1,0 +1,1612 @@
+[
+    {
+        "id": "390556a0444a3e01",
+        "type": "tab",
+        "label": "GW2.0",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "efe5c3e1ce4e037b",
+        "type": "tab",
+        "label": "SparkPlugAdaptor",
+        "disabled": false,
+        "info": "konvert to CIM-based\r\n{\r\n  \"timestamp\" : 1742237136844,\r\n  \"metrics\" : [ {\r\n    \"name\" : \"GGIO2.Ind1.SPS.stVal\",\r\n    \"timestamp\" : 1741972035098,\r\n    \"dataType\" : \"Boolean\",\r\n    \"value\" : false\r\n  }, {\r\n    \"name\" : \"YLTC1.OpCnt.INS.stVal\",\r\n    \"timestamp\" : 1741972035107,\r\n    \"dataType\" : \"Float\",\r\n    \"value\" : 0.0\r\n  }, {\r\n    \"name\" : \"YLTC1.Mod.INC.st.Enum\",\r\n    \"timestamp\" : 1741972035107,\r\n    \"dataType\" : \"Float\",\r\n    \"value\" : 3.051851E-5\r\n  }, {\r\n    \"name\" : \"SIML1.Tmp1.MV.mag.f\",\r\n    \"timestamp\" : 1742032921764,\r\n    \"dataType\" : \"Float\",\r\n    \"value\" : 100.0\r\n  }, {\r\n    \"name\" : \"YLTC1.TapChg.BSC.valWTr\",\r\n    \"timestamp\" : 1742237136845,\r\n    \"dataType\" : \"Int8\",\r\n    \"value\" : 0\r\n  }, {\r\n    \"name\" : \"CCGR1.CECtl.SPC.stVal\",\r\n    \"timestamp\" : 1742237136845,\r\n    \"dataType\" : \"Boolean\",\r\n    \"value\" : false\r\n  } ],\r\n  \"seq\" : 238\r\n}\r\n\r\n\r\nexempel 2\r\n\r\n{\r\n  \"timestamp\" : 1742364824695,\r\n  \"metrics\" : [ {\r\n    \"name\" : \"EK1_A32LD0/PCGAPC1.CntVal1.actVal[ST]\",\r\n    \"timestamp\" : 1742364824410,\r\n    \"dataType\" : \"Int32\",\r\n    \"value\" : 28192\r\n  } ],\r\n  \"seq\" : 134\r\n}",
+        "env": []
+    },
+    {
+        "id": "6d8020a1a7cc2b60",
+        "type": "tab",
+        "label": "61850Adaptor",
+        "disabled": false,
+        "info": "use 61850 CDC to map to CIM",
+        "env": []
+    },
+    {
+        "id": "e732ea44545b6370",
+        "type": "tab",
+        "label": "STINA",
+        "disabled": false,
+        "info": "Read Asset Health Topic and detect messages with rcdMade.\r\nEvaluate if rcdMade is true.\r\nif true execute archiveSync to fetch files.\r\nThis will also store the rcdMade Values in InfluxDB to enable visualization in Grafan.",
+        "env": []
+    },
+    {
+        "id": "3ab678530e130ee8",
+        "type": "tab",
+        "label": "store in InfluxDB",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "e7572a1671894ff8",
+        "type": "mqtt-sparkplug-broker",
+        "name": "",
+        "deviceGroup": "",
+        "eonName": "",
+        "broker": "localhost",
+        "port": 1883,
+        "clientid": "",
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "enableStoreForward": false,
+        "compressAlgorithm": "",
+        "aliasMetrics": false,
+        "useTemplates": true,
+        "manualEoNBirth": false,
+        "primaryScada": ""
+    },
+    {
+        "id": "636860953088bb4d",
+        "type": "influxdb",
+        "hostname": "127.0.0.1",
+        "port": 8086,
+        "protocol": "http",
+        "database": "database",
+        "name": "influxLocal",
+        "usetls": false,
+        "tls": "",
+        "influxdbVersion": "2.0",
+        "url": "http://localhost:8086",
+        "timeout": 10,
+        "rejectUnauthorized": true
+    },
+    {
+        "id": "7fb604f9461f5267",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "localhost",
+        "port": 1883,
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "06a106df30e8c87c",
+        "type": "debug",
+        "z": "390556a0444a3e01",
+        "name": "debug 6",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 380,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "289e3e1a42260d8b",
+        "type": "mqtt sparkplug in",
+        "z": "390556a0444a3e01",
+        "d": true,
+        "name": "",
+        "topic": "spBv1.0/#",
+        "qos": "1",
+        "broker": "e7572a1671894ff8",
+        "x": 860,
+        "y": 60,
+        "wires": [
+            [
+                "2ebb91cd07d60aff"
+            ]
+        ]
+    },
+    {
+        "id": "2ebb91cd07d60aff",
+        "type": "debug",
+        "z": "390556a0444a3e01",
+        "name": "debug 8",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1020,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "1e0691d962b032aa",
+        "type": "influxdb out",
+        "z": "390556a0444a3e01",
+        "influxdb": "636860953088bb4d",
+        "name": "CCGR1.CECtl.SPC.stVal",
+        "measurement": "spBv1.0/BT00/NDATA/GW2.0:CCGR1.CECtl.SPC.stVal",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "RnD",
+        "bucket": "sensors",
+        "x": 1020,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "15f9e1ecc81eef2d",
+        "type": "exec",
+        "z": "390556a0444a3e01",
+        "command": "C:\\Users\\derol\\Documents\\ArchiveSyncService_v5.3.1\\startRTU500ArchiveSync.bat",
+        "addpay": "",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "",
+        "x": 970,
+        "y": 720,
+        "wires": [
+            [
+                "bd028332b2fbece6"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "bd028332b2fbece6",
+        "type": "debug",
+        "z": "390556a0444a3e01",
+        "name": "debug 1",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1020,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "792fd24e0f03d541",
+        "type": "inject",
+        "z": "390556a0444a3e01",
+        "name": "rcdmade= true",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"timestamp\":\"2025-03-13T14:13:46.806Z\",\"metrics\":[{\"value\":true,\"type\":\"Boolean\",\"name\":\"BT00GWBT00130BLXXS1MON/DRPRDRE1.RcdMade\",\"timestamp\":\"2025-03-11T16:09:53.302Z\"},{\"type\":\"Float\",\"name\":\"YLTC1.OpCnt.INS.stVal\",\"timestamp\":\"2025-03-11T15:37:19.285Z\"},{\"value\":0.000030518509447574615,\"type\":\"Float\",\"name\":\"YLTC1.Mod.INC.st.Enum\",\"timestamp\":\"2025-03-11T15:37:19.285Z\"},{\"value\":0,\"type\":\"Float\",\"name\":\"SIML1.Tmp1.MV.mag.f\",\"timestamp\":\"2025-03-11T15:37:19.262Z\"},{\"value\":0,\"type\":\"Int8\",\"name\":\"YLTC1.TapChg.BSC.valWTr\",\"timestamp\":\"2025-03-13T14:13:46.806Z\"},{\"value\":false,\"type\":\"Boolean\",\"name\":\"CCGR1.CECtl.SPC.stVal\",\"timestamp\":\"2025-03-13T14:13:46.806Z\"}],\"seq\":33}",
+        "payloadType": "str",
+        "x": 140,
+        "y": 460,
+        "wires": [
+            [
+                "aa7ff59923c797a3"
+            ]
+        ]
+    },
+    {
+        "id": "aa7ff59923c797a3",
+        "type": "json",
+        "z": "390556a0444a3e01",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 240,
+        "y": 520,
+        "wires": [
+            [
+                "2ae5630b5994e93c"
+            ]
+        ]
+    },
+    {
+        "id": "a3f72c7aa02b3d6e",
+        "type": "switch",
+        "z": "390556a0444a3e01",
+        "name": "",
+        "property": "payload.value",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "true"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 570,
+        "y": 540,
+        "wires": [
+            [
+                "4bf9fe935a95e706",
+                "c5b30b62eb9d2b7f"
+            ]
+        ]
+    },
+    {
+        "id": "4bf9fe935a95e706",
+        "type": "debug",
+        "z": "390556a0444a3e01",
+        "name": "debug 2",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 780,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "153d073af5b1582c",
+        "type": "inject",
+        "z": "390556a0444a3e01",
+        "name": "rcdmade= false",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"timestamp\":\"2025-03-13T14:13:46.806Z\",\"metrics\":[{\"value\":false,\"type\":\"Boolean\",\"name\":\"BT00GWBT00130BLXXS1MON/DRPRDRE1.RcdMade\",\"timestamp\":\"2025-03-11T16:09:53.302Z\"},{\"type\":\"Float\",\"name\":\"YLTC1.OpCnt.INS.stVal\",\"timestamp\":\"2025-03-11T15:37:19.285Z\"},{\"value\":0.000030518509447574615,\"type\":\"Float\",\"name\":\"YLTC1.Mod.INC.st.Enum\",\"timestamp\":\"2025-03-11T15:37:19.285Z\"},{\"value\":0,\"type\":\"Float\",\"name\":\"SIML1.Tmp1.MV.mag.f\",\"timestamp\":\"2025-03-11T15:37:19.262Z\"},{\"value\":0,\"type\":\"Int8\",\"name\":\"YLTC1.TapChg.BSC.valWTr\",\"timestamp\":\"2025-03-13T14:13:46.806Z\"},{\"value\":false,\"type\":\"Boolean\",\"name\":\"CCGR1.CECtl.SPC.stVal\",\"timestamp\":\"2025-03-13T14:13:46.806Z\"}],\"seq\":33}",
+        "payloadType": "str",
+        "x": 140,
+        "y": 580,
+        "wires": [
+            [
+                "aa7ff59923c797a3"
+            ]
+        ]
+    },
+    {
+        "id": "2ae5630b5994e93c",
+        "type": "function",
+        "z": "390556a0444a3e01",
+        "name": "function 2",
+        "func": "for (var i = 0; i < msg.payload.metrics.length; i++) {\nvar newMsg = {};\nnewMsg.payload = msg.payload.metrics[i];\n//newMsg.timestamp = msg.payload.metrics[i].timestamp;\nnode.send(newMsg);\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 440,
+        "y": 280,
+        "wires": [
+            [
+                "a78d3a28c24e4276"
+            ]
+        ]
+    },
+    {
+        "id": "a78d3a28c24e4276",
+        "type": "switch",
+        "z": "390556a0444a3e01",
+        "name": "",
+        "property": "payload.name",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "cont",
+                "v": "BT00GWBT00130BLXXS1MON/DRPRDRE1.RcdMade",
+                "vt": "str"
+            },
+            {
+                "t": "cont",
+                "v": "GGIO2.Ind1.SPS.stVal",
+                "vt": "str"
+            },
+            {
+                "t": "cont",
+                "v": "YLTC1.OpCnt.INS.stVal",
+                "vt": "str"
+            },
+            {
+                "t": "cont",
+                "v": "YLTC1.Mod.INC.st.Enum",
+                "vt": "str"
+            },
+            {
+                "t": "cont",
+                "v": "SIML1.Tmp1.MV.mag.f",
+                "vt": "str"
+            },
+            {
+                "t": "cont",
+                "v": "YLTC1.TapChg.BSC.valWTr",
+                "vt": "str"
+            },
+            {
+                "t": "cont",
+                "v": "CCGR1.CECtl.SPC.stVal",
+                "vt": "str"
+            },
+            {
+                "t": "cont",
+                "v": "EK1_A32LD0/PCGAPC1.CntVal1.actVal[ST]",
+                "vt": "str"
+            },
+            {
+                "t": "cont",
+                "v": "EK1_A32DR/RDRE1.RcdMade.stVal[ST]",
+                "vt": "str"
+            },
+            {
+                "t": "cont",
+                "v": "EK1_A32DR/RDRE1.FltNum.stVal[ST]",
+                "vt": "str"
+            },
+            {
+                "t": "cont",
+                "v": "BT00GWBT00130BLXXS1MON/DRPRDRE1.RcdMade",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 11,
+        "x": 570,
+        "y": 340,
+        "wires": [
+            [
+                "ce00fd511f335eea"
+            ],
+            [
+                "ac9726d8844b215b"
+            ],
+            [
+                "35c7a8e46d20ec55"
+            ],
+            [
+                "1d9bfcab2b7a437a"
+            ],
+            [
+                "7916772e5b29ae8f"
+            ],
+            [
+                "efd03c941ba9c0b3",
+                "c8bd7fbc94d0cb1c"
+            ],
+            [
+                "7cb9c034aa83858e",
+                "1e0691d962b032aa"
+            ],
+            [
+                "c28435cb7218852c",
+                "026566c7e463bb4f"
+            ],
+            [
+                "739247c3a6d62a4a",
+                "355e85279b804459",
+                "a3f72c7aa02b3d6e"
+            ],
+            [
+                "7e1cc9dd51c72117",
+                "cf97cb6e38971c33"
+            ],
+            [
+                "a3f72c7aa02b3d6e",
+                "fd7990757f5a3f27",
+                "5e021c780fc994dd"
+            ]
+        ]
+    },
+    {
+        "id": "7cb9c034aa83858e",
+        "type": "debug",
+        "z": "390556a0444a3e01",
+        "name": "debug 3",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 780,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "efd03c941ba9c0b3",
+        "type": "debug",
+        "z": "390556a0444a3e01",
+        "name": "debug 9",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 780,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "7916772e5b29ae8f",
+        "type": "debug",
+        "z": "390556a0444a3e01",
+        "name": "debug 10",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 780,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "1d9bfcab2b7a437a",
+        "type": "debug",
+        "z": "390556a0444a3e01",
+        "name": "debug 11",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 780,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "35c7a8e46d20ec55",
+        "type": "debug",
+        "z": "390556a0444a3e01",
+        "name": "debug 12",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 780,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "ac9726d8844b215b",
+        "type": "debug",
+        "z": "390556a0444a3e01",
+        "name": "debug 13",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 780,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "ce00fd511f335eea",
+        "type": "debug",
+        "z": "390556a0444a3e01",
+        "name": "debug 14",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 780,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "355e85279b804459",
+        "type": "influxdb out",
+        "z": "390556a0444a3e01",
+        "influxdb": "636860953088bb4d",
+        "name": "EK1_A32DR/RDRE1.RcdMade.stVal",
+        "measurement": "spBv1.0/BT00/NDATA/GW2.0:EK1_A32DR/RDRE1.RcdMade.stVal",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "RnD",
+        "bucket": "sensors",
+        "x": 1050,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "739247c3a6d62a4a",
+        "type": "debug",
+        "z": "390556a0444a3e01",
+        "name": "debug 15",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 780,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "c5b30b62eb9d2b7f",
+        "type": "delay",
+        "z": "390556a0444a3e01",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "60",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 720,
+        "y": 660,
+        "wires": [
+            [
+                "15f9e1ecc81eef2d"
+            ]
+        ]
+    },
+    {
+        "id": "c8bd7fbc94d0cb1c",
+        "type": "influxdb out",
+        "z": "390556a0444a3e01",
+        "influxdb": "636860953088bb4d",
+        "name": "YLTC1.TapChg.BSC.valWTr",
+        "measurement": "spBv1.0/BT00/NDATA/GW2.0:YLTC1.TapChg.BSC.valWTr",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "RnD",
+        "bucket": "sensors",
+        "x": 1030,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "fad2ab20dd6e1c2a",
+        "type": "influxdb out",
+        "z": "390556a0444a3e01",
+        "influxdb": "636860953088bb4d",
+        "name": "spBv1.0/BT00/NDATA/GW2.0:seq",
+        "measurement": "spBv1.0/BT00/NDATA/GW2.0:seq",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "RnD",
+        "bucket": "sensors",
+        "x": 160,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "7e1cc9dd51c72117",
+        "type": "debug",
+        "z": "390556a0444a3e01",
+        "name": "debug 16",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 780,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "cf97cb6e38971c33",
+        "type": "influxdb out",
+        "z": "390556a0444a3e01",
+        "influxdb": "636860953088bb4d",
+        "name": "EK1_A32DR/RDRE1.FltNum.stVal",
+        "measurement": "spBv1.0/BT00/NDATA/GW2.0:EK1_A32DR/RDRE1.FltNum.stVal",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "RnD",
+        "bucket": "sensors",
+        "x": 1040,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "fd7990757f5a3f27",
+        "type": "debug",
+        "z": "390556a0444a3e01",
+        "name": "debug 4",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 780,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "5e021c780fc994dd",
+        "type": "influxdb out",
+        "z": "390556a0444a3e01",
+        "influxdb": "636860953088bb4d",
+        "name": "BT00130BLXXS1MON/DRPRDRE1.RcdMade.stVal",
+        "measurement": "spBv1.0/BT00/NDATA/GW2.0:BT00130BLXXS1MON/DRPRDRE1.RcdMade.stVal",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "RnD",
+        "bucket": "sensors",
+        "x": 1090,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "c28435cb7218852c",
+        "type": "debug",
+        "z": "390556a0444a3e01",
+        "name": "debug 5",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 780,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "026566c7e463bb4f",
+        "type": "influxdb out",
+        "z": "390556a0444a3e01",
+        "influxdb": "636860953088bb4d",
+        "name": "EK1_A32LD0/PCGAPC1.CntVal1.actVal",
+        "measurement": "spBv1.0/BT00/NDATA/GW2.0:EK1_A32LD0/PCGAPC1.CntVal1.actVal",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "RnD",
+        "bucket": "sensors",
+        "x": 1060,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "58f3ceda6e0c61bf",
+        "type": "mqtt in",
+        "z": "390556a0444a3e01",
+        "name": "",
+        "topic": "AssetHealth",
+        "qos": "1",
+        "datatype": "auto-detect",
+        "broker": "7fb604f9461f5267",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 110,
+        "y": 160,
+        "wires": [
+            [
+                "06a106df30e8c87c"
+            ]
+        ]
+    },
+    {
+        "id": "5f13d468587ea884",
+        "type": "switch",
+        "z": "efe5c3e1ce4e037b",
+        "name": "",
+        "property": "hasProperties",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "true"
+            },
+            {
+                "t": "false"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 680,
+        "y": 560,
+        "wires": [
+            [
+                "0a793ac13fdd8327",
+                "46ddb696d2803020"
+            ],
+            [
+                "868fb7109bb8c40d",
+                "46ddb696d2803020"
+            ]
+        ]
+    },
+    {
+        "id": "af2dc929454b38e9",
+        "type": "function",
+        "z": "efe5c3e1ce4e037b",
+        "name": "add_hasProperties",
+        "func": "for (var i = 0; i < msg.payload.metrics.length; i++) {\n    var newMsg = {};\n    newMsg.payload = msg.payload.metrics[i];\n    if (newMsg.payload && newMsg.payload.properties) {\n        newMsg.hasProperties = true;\n        newMsg.topic = msg.topic\n    } else {\n        newMsg.hasProperties = false;\n        newMsg.topic = msg.topic\n    }\n    node.send(newMsg);\n}\n\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 490,
+        "y": 560,
+        "wires": [
+            [
+                "5f13d468587ea884",
+                "cacd7efb563f7aa0"
+            ]
+        ]
+    },
+    {
+        "id": "46ddb696d2803020",
+        "type": "function",
+        "z": "efe5c3e1ce4e037b",
+        "name": "Map2CIM",
+        "func": "var cimAnalog = {\"PublishMeasurementValueRequest\": \n[    \n{\n      \"mRID\": \"BT00GWBT0040MLXX1LD0/SPH3SCBR1.AccmAPwr.mag.20190826163058.282Z\",\n      \"name\": \"mag\",\n      \"timeStamp\": \"20190826163058.282Z\",\n      \"value\": 3015.5183,\n      \"MeasurementValueQuality\": {\n        \"measurementValueQualityCode\": \"Good\"\n      },\n      \"Analog\": {\n        \"measurementType\": \"AnalogValue_Type\",\n        \"name\": \"mag\",\n        \"mRID\": \"BT00GWBT0040MLXX1LD0/SPH3SCBR1.AccmAPwr.mag\"\n      }\n    }\n  ]\n\n  };\n\n  var cimAcc = {\"PublishMeasurementValueRequest\": [\n    {\n      \"mRID\": \"BT00GWBT0040MLXX1LD0/SPH1SCBR1.RmnNumOp.actVal.20190826163058.282Z\",\n      \"name\": \"actVal\",\n      \"timeStamp\": \"20190826163058.282Z\",\n      \"value\": 3023,\n      \"MeasurementValueQuality\": {\n        \"measurementValueQualityCode\": \"Good\"\n      },\n      \"Accumulator\": {\n        \"measurementType\": \"AccumulatorValue_Type\",\n        \"name\": \"actVal\",\n        \"mRID\": \"BT00GWBT0040MLXX1LD0/SPH1SCBR1.RmnNumOp.actVal\"\n      }\n    } ] };\nvar cimDisc = {\n  \"PublishMeasurementValueRequest\": [\n\n    {\n      \"mRID\": \"BT00GWBT0040MLXX1LD0/SPH3SCBR1.RmnNumOp.stVal.20190826163058.282Z\",\n      \"name\": \"stVal\",\n      \"timeStamp\": \"20190826163058.282Z\",\n      \"value\": 3004,\n      \"MeasurementValueQuality\": {\n        \"measurementValueQualityCode\": \"Good\"\n      },\n      \"Discrete\": {\n        \"measurementType\": \"DiscreteValue_Type\",\n        \"name\": \"stVal\",\n        \"mRID\": \"BT00GWBT0040MLXX1LD0/SPH3SCBR1.RmnNumOp.stVal\"\n      }\n    }]\n};\n\n\n// Check the type of msg.payload.type and respond accordingly\nif (msg.payload && msg.payload.type === \"Float\") {\n    cimAnalog.PublishMeasurementValueRequest[0].value = msg.payload.value;\n    cimAnalog.PublishMeasurementValueRequest[0].mRID = msg.topic+\":\"+msg.payload.name+\":\"+__msgid__;\n    cimAnalog.PublishMeasurementValueRequest[0].name = msg.payload.name;\n    cimAnalog.PublishMeasurementValueRequest[0].timeStamp = msg.payload.timestamp;\n    cimAnalog.PublishMeasurementValueRequest[0].Analog.name = msg.payload.name;\n    cimAnalog.PublishMeasurementValueRequest[0].Analog.mRID = msg.topic+\":\"+msg.payload.name;\n  if (msg.hasProperties==false){\n    cimAnalog.PublishMeasurementValueRequest[0].MeasurementValueQuality.measurementValueQualityCode = \"GOOD\";\n  }\n  else{\n    cimAnalog.PublishMeasurementValueRequest[0].MeasurementValueQuality.measurementValueQualityCode = \"BAD\";\n  }  \n    msg.payload = cimAnalog;\n\n} else if (msg.payload && msg.payload.type === \"Boolean\" || msg.payload && msg.payload.type === \"Int8\" ) {\n  if (msg.payload.value == true ){\n    cimDisc.PublishMeasurementValueRequest[0].value =1;\n  }else if (msg.payload.value == false){\n    cimDisc.PublishMeasurementValueRequest[0].value =0;\n  }\n  else{\n    cimDisc.PublishMeasurementValueRequest[0].value = msg.payload.value;\n  }\n  cimDisc.PublishMeasurementValueRequest[0].mRID = msg.topic + \":\" + msg.payload.name + \":\" + __msgid__;\n  cimDisc.PublishMeasurementValueRequest[0].name = msg.payload.name;\n  cimDisc.PublishMeasurementValueRequest[0].timeStamp = msg.payload.timestamp;\n  cimDisc.PublishMeasurementValueRequest[0].Discrete.name = msg.payload.name;\n  cimDisc.PublishMeasurementValueRequest[0].Discrete.mRID = msg.topic + \":\" + msg.payload.name;\n  if (msg.hasProperties == false) {\n    cimDisc.PublishMeasurementValueRequest[0].MeasurementValueQuality.measurementValueQualityCode = \"GOOD\";\n  }\n  else {\n    cimDisc.PublishMeasurementValueRequest[0].MeasurementValueQuality.measurementValueQualityCode = \"BAD\";\n  }\n  msg.payload = cimDisc;\n\n} else if (msg.payload && msg.payload.type === \"Uint32\") {\n    msg.result = \"The type is Uint32.\";\n} else if (msg.payload && msg.payload.type === \"Int32\") {\n    cimAcc.PublishMeasurementValueRequest[0].value = msg.payload.value;\n    cimAcc.PublishMeasurementValueRequest[0].mRID = msg.topic+\":\"+msg.payload.name+\":\"+__msgid__;\n    cimAcc.PublishMeasurementValueRequest[0].name = msg.payload.name;\n    cimAcc.PublishMeasurementValueRequest[0].timeStamp = msg.payload.timestamp;\n    cimAcc.PublishMeasurementValueRequest[0].Accumulator.name = msg.payload.name;\n    cimAcc.PublishMeasurementValueRequest[0].Accumulator.mRID = msg.topic+\":\"+msg.payload.name;\n  if (msg.hasProperties==false){\n    cimAcc.PublishMeasurementValueRequest[0].MeasurementValueQuality.measurementValueQualityCode = \"GOOD\";\n  }\n  else{\n    cimAcc.PublishMeasurementValueRequest[0].MeasurementValueQuality.measurementValueQualityCode = \"BAD\";\n  }\n    \n    msg.payload = cimAcc;\n} else {\n    //msg.result = \"The type is unknown or missing.\";\n    msg.payload = cimAnalog;\n}\nreturn msg;\n\n// Return the message object\n//return msg;\n\n\n\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 840,
+        "y": 360,
+        "wires": [
+            [
+                "e0413c40a7941e7b",
+                "266e54c287a78cba"
+            ]
+        ]
+    },
+    {
+        "id": "e0413c40a7941e7b",
+        "type": "debug",
+        "z": "efe5c3e1ce4e037b",
+        "name": "debug 7",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1020,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "0a793ac13fdd8327",
+        "type": "debug",
+        "z": "efe5c3e1ce4e037b",
+        "name": "debug 17",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 920,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "868fb7109bb8c40d",
+        "type": "debug",
+        "z": "efe5c3e1ce4e037b",
+        "name": "debug 18",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 920,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "03f00d236fa154d5",
+        "type": "mqtt sparkplug in",
+        "z": "efe5c3e1ce4e037b",
+        "d": true,
+        "name": "",
+        "topic": "spBv1.0/BT00/NDATA/GW2.0",
+        "qos": "1",
+        "broker": "e7572a1671894ff8",
+        "x": 140,
+        "y": 420,
+        "wires": [
+            [
+                "af2dc929454b38e9",
+                "c880d0e876842787"
+            ]
+        ]
+    },
+    {
+        "id": "c880d0e876842787",
+        "type": "debug",
+        "z": "efe5c3e1ce4e037b",
+        "name": "debug 19",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 410,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "266e54c287a78cba",
+        "type": "mqtt out",
+        "z": "efe5c3e1ce4e037b",
+        "name": "AssetHealth",
+        "topic": "AssetHealth",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "7fb604f9461f5267",
+        "x": 1070,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "cacd7efb563f7aa0",
+        "type": "debug",
+        "z": "efe5c3e1ce4e037b",
+        "name": "debug 20",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 690,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "7e34d77af1bd677b",
+        "type": "inject",
+        "z": "efe5c3e1ce4e037b",
+        "name": "Quality",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{   \"timestamp\": \"2025-03-13T14:13:46.806Z\",   \"metrics\": [     {       \"value\": true,       \"type\": \"Boolean\",       \"name\": \"BT00GWBT00130BLXXS1MON/DRPRDRE1.RcdMade:SPS\",       \"timestamp\": \"2025-03-11T16:09:53.302Z\"     },     {       \"value\": 1,       \"type\": \"Float\",       \"name\": \"YLTC1.OpCnt.INS.stVal:INS\",       \"timestamp\": \"2025-03-11T15:37:19.285Z\"     },     {       \"value\": 2,       \"type\": \"Float\",       \"name\": \"YLTC1.Mod.INC.st.Enum:INC\",       \"timestamp\": \"2025-03-11T15:37:19.285Z\"     },     {       \"value\": 0,       \"type\": \"Float\",       \"name\": \"SIML1.Tmp1.MV.mag.f:MV\",       \"timestamp\": \"2025-03-11T15:37:19.262Z\"     },     {       \"value\": 0,       \"type\": \"Int8\",       \"name\": \"YLTC1.TapChg.BSC.valWTr:BSC\",       \"timestamp\": \"2025-03-13T14:13:46.806Z\"     },     {       \"value\": false,       \"type\": \"Boolean\",       \"name\": \"CCGR1.CECtl.SPC.stVal:SPC\",       \"timestamp\": \"2025-03-13T14:13:46.806Z\"     },     {       \"value\": true,       \"type\": \"Boolean\",       \"name\": \"GGIO2.Ind1.SPS.stVal:SPS\",       \"timestamp\": \"2025-03-19T13:59:49.281Z\",       \"properties\": {         \"Quality\": {           \"value\": null         }       }     }   ],   \"seq\": 33 }",
+        "payloadType": "json",
+        "x": 210,
+        "y": 560,
+        "wires": [
+            [
+                "af2dc929454b38e9"
+            ]
+        ],
+        "info": "{\r\n  \"timestamp\": \"2025-03-13T14:13:46.806Z\",\r\n  \"metrics\": [\r\n    {\r\n      \"value\": true,\r\n      \"type\": \"Boolean\",\r\n      \"name\": \"BT00GWBT00130BLXXS1MON/DRPRDRE1.RcdMade:SPS\",\r\n      \"timestamp\": \"2025-03-11T16:09:53.302Z\"\r\n    },\r\n    {\r\n      \"value\": 1,\r\n      \"type\": \"Float\",\r\n      \"name\": \"YLTC1.OpCnt.INS.stVal:INS\",\r\n      \"timestamp\": \"2025-03-11T15:37:19.285Z\"\r\n    },\r\n    {\r\n      \"value\": 2,\r\n      \"type\": \"Float\",\r\n      \"name\": \"YLTC1.Mod.INC.st.Enum:INC\",\r\n      \"timestamp\": \"2025-03-11T15:37:19.285Z\"\r\n    },\r\n    {\r\n      \"value\": 0,\r\n      \"type\": \"Float\",\r\n      \"name\": \"SIML1.Tmp1.MV.mag.f:MV\",\r\n      \"timestamp\": \"2025-03-11T15:37:19.262Z\"\r\n    },\r\n    {\r\n      \"value\": 0,\r\n      \"type\": \"Int8\",\r\n      \"name\": \"YLTC1.TapChg.BSC.valWTr:BSC\",\r\n      \"timestamp\": \"2025-03-13T14:13:46.806Z\"\r\n    },\r\n    {\r\n      \"value\": false,\r\n      \"type\": \"Boolean\",\r\n      \"name\": \"CCGR1.CECtl.SPC.stVal:SPC\",\r\n      \"timestamp\": \"2025-03-13T14:13:46.806Z\"\r\n    },\r\n    {\r\n      \"value\": true,\r\n      \"type\": \"Boolean\",\r\n      \"name\": \"GGIO2.Ind1.SPS.stVal:SPS\",\r\n      \"timestamp\": \"2025-03-19T13:59:49.281Z\",\r\n      \"properties\": {\r\n        \"Quality\": {\r\n          \"value\": null\r\n        }\r\n      }\r\n    }\r\n  ],\r\n  \"seq\": 33\r\n}"
+    },
+    {
+        "id": "02fab1d088b6945d",
+        "type": "function",
+        "z": "6d8020a1a7cc2b60",
+        "name": "forward_topic & add_hasProperties",
+        "func": "for (var i = 0; i < msg.payload.metrics.length; i++) {\n    var newMsg = {};\n    newMsg.payload = msg.payload.metrics[i];\n    if (newMsg.payload && newMsg.payload.properties) {\n        newMsg.hasProperties = true;\n        newMsg.topic = msg.topic\n    } else {\n        newMsg.hasProperties = false;\n        newMsg.topic = msg.topic\n    }\n    node.send(newMsg);\n}\n\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 600,
+        "y": 400,
+        "wires": [
+            [
+                "33f56dd02a5a840e",
+                "fdc384b82313e13a"
+            ]
+        ]
+    },
+    {
+        "id": "33f56dd02a5a840e",
+        "type": "function",
+        "z": "6d8020a1a7cc2b60",
+        "name": "map to CIM",
+        "func": "//var cDC = { \"CDC\": [{ \"SPS\": \"Boolean\", \"SPC\": \"Boolean\", \"ACT\": \"Boolean\",\"INS\":\"Int\",\"INC\":\"Int\",\"ENS\":\"Int\",\"BSC\":\"Int\",\"ISC\":\"Int\",\"DPS\":\"Int\",\"ACD\":\"Int\",\"DPC\":\"Int\",\"BCR\":\"Int\", \"MV\":\"Float\", \"CMV\":\"Float\"}]}\nvar cDCBoolean = { \"CDC\": [\"SPS\", \"SPC\", \"ACT\"]}\nvar cDCInt = { \"CDC\": [\"INS\", \"INC\", \"ENS\",\"BSC\", \"ISC\", \"DPS\", \"ACD\", \"DPC\", \"BCR\" ]}\nvar cDCAcc = { \"CDC\": [\"BCR\"] }\nvar cDCFloat = { \"CDC\": [\"MV\", \"CMV\"]}\n\nvar cimAnalog = {\"PublishMeasurementValueRequest\": \n[    \n{\n      \"mRID\": \"Default\",\n      \"name\": \"Default\",\n      \"timeStamp\": \"20190826163058.282Z\",\n      \"value\": -1,\n      \"MeasurementValueQuality\": {\n        \"measurementValueQualityCode\": \"BAD\"\n      },\n      \"Analog\": {\n        \"measurementType\": \"AnalogValue_Type\",\n        \"name\": \"Default\",\n        \"mRID\": \"Default\"\n      }\n    }\n  ]\n\n  };\n\n  var cimAcc = {\"PublishMeasurementValueRequest\": [\n    {\n      \"mRID\": \"Default\",\n      \"name\": \"Default\",\n      \"timeStamp\": \"20190826163058.282Z\",\n      \"value\": 0,\n      \"MeasurementValueQuality\": {\n        \"measurementValueQualityCode\": \"BAD\"\n      },\n      \"Accumulator\": {\n        \"measurementType\": \"AccumulatorValue_Type\",\n        \"name\": \"Default\",\n        \"mRID\": \"Default\"\n      }\n    } ] };\nvar cimDisc = {\n  \"PublishMeasurementValueRequest\": [\n\n    {\n      \"mRID\": \"Default\",\n      \"name\": \"Default\",\n      \"timeStamp\": \"20190826163058.282Z\",\n      \"value\": 0,\n      \"MeasurementValueQuality\": {\n        \"measurementValueQualityCode\": \"BAD\"\n      },\n      \"Discrete\": {\n        \"measurementType\": \"DiscreteValue_Type\",\n        \"name\": \"Default\",\n        \"mRID\": \"Default\"\n      }\n    }]\n};\n\n\n// Fetch the name string\nvar fullString = msg.payload.name;\n// Extract the value after the last '.'\nvar cDCMsg = fullString.substring(fullString.lastIndexOf(\":\") + 1);\n\n\n//If the CDC is of type: { \"CDC\": [\"MV\", \"CMV\"]}\" Than map to CIM_AnalogueValue\nif (msg.payload && cDCFloat.CDC.includes(cDCMsg)) {\n    cimAnalog.PublishMeasurementValueRequest[0].value = msg.payload.value;\n    cimAnalog.PublishMeasurementValueRequest[0].mRID = msg.topic+\":\"+msg.payload.name+\":\"+__msgid__;\n    cimAnalog.PublishMeasurementValueRequest[0].name = msg.payload.name;\n    cimAnalog.PublishMeasurementValueRequest[0].timeStamp = msg.payload.timestamp;\n    cimAnalog.PublishMeasurementValueRequest[0].Analog.name = msg.payload.name;\n    cimAnalog.PublishMeasurementValueRequest[0].Analog.mRID = msg.topic+\":\"+msg.payload.name;\n  if (msg.hasProperties==false){\n    cimAnalog.PublishMeasurementValueRequest[0].MeasurementValueQuality.measurementValueQualityCode = \"GOOD\";\n  }\n  else{\n    cimAnalog.PublishMeasurementValueRequest[0].MeasurementValueQuality.measurementValueQualityCode = \"BAD\";\n  }  \n    msg.payload = cimAnalog;\n\n\n//If the CDC is of type: { \"CDC\": [\"SPS\", \"SPC\", \"ACT\"]} Than map to CIM_DiscreteValue\n} else if (msg.payload && cDCBoolean.CDC.includes(cDCMsg) || cDCInt.CDC.includes(cDCMsg) ) {\n  //convert true/false to int value before assigning value to message payload.\n  if (msg.payload.value == true ){\n    cimDisc.PublishMeasurementValueRequest[0].value =1;\n  }else if (msg.payload.value == false){\n    cimDisc.PublishMeasurementValueRequest[0].value =0;\n  }\n  else{\n    cimDisc.PublishMeasurementValueRequest[0].value = msg.payload.value;\n  }\n  cimDisc.PublishMeasurementValueRequest[0].mRID = msg.topic + \":\" + msg.payload.name + \":\" + __msgid__;\n  cimDisc.PublishMeasurementValueRequest[0].name = msg.payload.name;\n  cimDisc.PublishMeasurementValueRequest[0].timeStamp = msg.payload.timestamp;\n  cimDisc.PublishMeasurementValueRequest[0].Discrete.name = msg.payload.name;\n  cimDisc.PublishMeasurementValueRequest[0].Discrete.mRID = msg.topic + \":\" + msg.payload.name;\n  if (msg.hasProperties == false) {\n    cimDisc.PublishMeasurementValueRequest[0].MeasurementValueQuality.measurementValueQualityCode = \"GOOD\";\n  }\n  else {\n    cimDisc.PublishMeasurementValueRequest[0].MeasurementValueQuality.measurementValueQualityCode = \"BAD\";\n  }\n  msg.payload = cimDisc;\n  //If the CDC is of type: { \"CDC\": [\"BCR\"] }  Than map to CIM_AccumulatorValue\n} else if (msg.payload && cDCAcc.CDC.includes(cDCMsg)) {\n  cimAcc.PublishMeasurementValueRequest[0].value = msg.payload.value;\n  cimAcc.PublishMeasurementValueRequest[0].mRID = msg.topic+\":\"+msg.payload.name+\":\"+__msgid__;\n  cimAcc.PublishMeasurementValueRequest[0].name = msg.payload.name;\n  cimAcc.PublishMeasurementValueRequest[0].timeStamp = msg.payload.timestamp;\n  cimAcc.PublishMeasurementValueRequest[0].Accumulator.name = msg.payload.name;\n  cimAcc.PublishMeasurementValueRequest[0].Accumulator.mRID = msg.topic+\":\"+msg.payload.name;\n  if (msg.hasProperties==false){\n    cimAcc.PublishMeasurementValueRequest[0].MeasurementValueQuality.measurementValueQualityCode = \"GOOD\";\n  }\n  else{\n    cimAcc.PublishMeasurementValueRequest[0].MeasurementValueQuality.measurementValueQualityCode = \"BAD\";\n  }\n    msg.payload = cimAcc;\n} else {\n    //msg.result = \"The type is unknown or missing.\";\n    msg.payload = cimAnalog;\n}\nreturn msg;\n\n\n\n\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 890,
+        "y": 400,
+        "wires": [
+            [
+                "f0729c1b6241ca69",
+                "866bef55dc276489"
+            ]
+        ]
+    },
+    {
+        "id": "f0729c1b6241ca69",
+        "type": "debug",
+        "z": "6d8020a1a7cc2b60",
+        "name": "debug 21",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1100,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "39f121c89778ed93",
+        "type": "mqtt sparkplug in",
+        "z": "6d8020a1a7cc2b60",
+        "name": "",
+        "topic": "spBv1.0/BT00/NDATA/GW2.0",
+        "qos": "1",
+        "broker": "e7572a1671894ff8",
+        "x": 300,
+        "y": 400,
+        "wires": [
+            [
+                "02fab1d088b6945d",
+                "3a3e81fb5b3bdc16"
+            ]
+        ]
+    },
+    {
+        "id": "866bef55dc276489",
+        "type": "mqtt out",
+        "z": "6d8020a1a7cc2b60",
+        "name": "CIM_Analytics",
+        "topic": "CIM_Analytics",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "7fb604f9461f5267",
+        "x": 1120,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "1b8a91876b0c4581",
+        "type": "inject",
+        "z": "6d8020a1a7cc2b60",
+        "name": "Quality",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{   \"timestamp\": \"2025-03-13T14:13:46.806Z\",   \"metrics\": [     {       \"value\": true,       \"type\": \"Boolean\",       \"name\": \"BT00GWBT00130BLXXS1MON/DRPRDRE1.RcdMade:SPS\",       \"timestamp\": \"2025-03-11T16:09:53.302Z\"     },     {       \"value\": 999999,       \"type\": \"Float\",       \"name\": \"YLTC1.OpCnt.INS.stVal:INS\",       \"timestamp\": \"2025-03-11T15:37:19.285Z\"     },     {       \"value\": 2,       \"type\": \"Float\",       \"name\": \"YLTC1.Mod.INC.st.Enum:INC\",       \"timestamp\": \"2025-03-11T15:37:19.285Z\"     },     {       \"value\": 0,       \"type\": \"Float\",       \"name\": \"SIML1.Tmp1.MV.mag.f:MV\",       \"timestamp\": \"2025-03-11T15:37:19.262Z\"     },     {       \"value\": 0,       \"type\": \"Int8\",       \"name\": \"YLTC1.TapChg.BSC.valWTr:BSC\",       \"timestamp\": \"2025-03-13T14:13:46.806Z\"     },     {       \"value\": false,       \"type\": \"Boolean\",       \"name\": \"CCGR1.CECtl.SPC.stVal:SPC\",       \"timestamp\": \"2025-03-13T14:13:46.806Z\"     },     {       \"value\": true,       \"type\": \"Boolean\",       \"name\": \"GGIO2.Ind1.SPS.stVal:SPS\",       \"timestamp\": \"2025-03-19T13:59:49.281Z\",       \"properties\": {         \"Quality\": {           \"value\": null         }       }     }   ],   \"seq\": 33 }",
+        "payloadType": "json",
+        "x": 370,
+        "y": 500,
+        "wires": [
+            [
+                "c6e9e99a51f26a7a"
+            ]
+        ],
+        "info": "{\r\n  \"timestamp\": \"2025-03-13T14:13:46.806Z\",\r\n  \"metrics\": [\r\n    {\r\n      \"value\": true,\r\n      \"type\": \"Boolean\",\r\n      \"name\": \"BT00GWBT00130BLXXS1MON/DRPRDRE1.RcdMade:SPS\",\r\n      \"timestamp\": \"2025-03-11T16:09:53.302Z\"\r\n    },\r\n    {\r\n      \"value\": 1,\r\n      \"type\": \"Float\",\r\n      \"name\": \"YLTC1.OpCnt.INS.stVal:INS\",\r\n      \"timestamp\": \"2025-03-11T15:37:19.285Z\"\r\n    },\r\n    {\r\n      \"value\": 2,\r\n      \"type\": \"Float\",\r\n      \"name\": \"YLTC1.Mod.INC.st.Enum:INC\",\r\n      \"timestamp\": \"2025-03-11T15:37:19.285Z\"\r\n    },\r\n    {\r\n      \"value\": 0,\r\n      \"type\": \"Float\",\r\n      \"name\": \"SIML1.Tmp1.MV.mag.f:MV\",\r\n      \"timestamp\": \"2025-03-11T15:37:19.262Z\"\r\n    },\r\n    {\r\n      \"value\": 0,\r\n      \"type\": \"Int8\",\r\n      \"name\": \"YLTC1.TapChg.BSC.valWTr:BSC\",\r\n      \"timestamp\": \"2025-03-13T14:13:46.806Z\"\r\n    },\r\n    {\r\n      \"value\": false,\r\n      \"type\": \"Boolean\",\r\n      \"name\": \"CCGR1.CECtl.SPC.stVal:SPC\",\r\n      \"timestamp\": \"2025-03-13T14:13:46.806Z\"\r\n    },\r\n    {\r\n      \"value\": true,\r\n      \"type\": \"Boolean\",\r\n      \"name\": \"GGIO2.Ind1.SPS.stVal:SPS\",\r\n      \"timestamp\": \"2025-03-19T13:59:49.281Z\",\r\n      \"properties\": {\r\n        \"Quality\": {\r\n          \"value\": null\r\n        }\r\n      }\r\n    }\r\n  ],\r\n  \"seq\": 33\r\n}"
+    },
+    {
+        "id": "c6e9e99a51f26a7a",
+        "type": "function",
+        "z": "6d8020a1a7cc2b60",
+        "name": "Ad_topic_&_hasProperties",
+        "func": "for (var i = 0; i < msg.payload.metrics.length; i++) {\n    var newMsg = {};\n    newMsg.payload = msg.payload.metrics[i];\n    if (newMsg.payload && newMsg.payload.properties) {\n        newMsg.hasProperties = true;\n        newMsg.topic = \"spBv1.0/BT00/NDATA/GW2.0\";\n    } else {\n        newMsg.hasProperties = false;\n        newMsg.topic = \"spBv1.0/BT00/NDATA/GW2.0\";\n    }\n\n    node.send(newMsg);\n}\n\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 600,
+        "y": 540,
+        "wires": [
+            [
+                "33f56dd02a5a840e"
+            ]
+        ]
+    },
+    {
+        "id": "344ca5ae96f1f46c",
+        "type": "inject",
+        "z": "6d8020a1a7cc2b60",
+        "name": "unvalid",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"timestamp\":\"2025-03-13T14:13:46.806Z\",\"metrics\":[{\"value\":true,\"type\":\"Boolean\",\"name\":\"BT00GWBT00130BLXXS1MON/DRPRDRE1.RcdMade:SPS\",\"timestamp\":\"2025-03-11T16:09:53.302Z\"},{\"value\":\"999999\",\"type\":\"Float\",\"name\":\"YLTC1.OpCnt.INS.stVal:INS\",\"timestamp\":\"2025-03-11T15:37:19.285Z\"},{\"value\":2,\"type\":\"Float\",\"name\":\"YLTC1.Mod.INC.st.Enum:INC\",\"timestamp\":\"\"},{\"value\":\"STRING\",\"type\":\"Float\",\"name\":\"SIML1.Tmp1.MV.mag.f:MV\",\"timestamp\":\"2025-03-11T15:37:19.262Z\"},{\"value\":0,\"type\":\"Int8\",\"name\":\"YLTC1.TapChg.BSC.valWTr:BSC\",\"timestamp\":\"2025-03-13T14:13:46.806Z\"},{\"value\":false,\"type\":\"Boolean\",\"name\":\"CCGR1.CECtl.SPC.stVal:SPC\",\"timestamp\":\"2025-03-13T14:13:46.806Z\"},{\"value\":true,\"type\":\"Boolean\",\"name\":\"GGIO2.Ind1.SPS.stVal:SPS\",\"timestamp\":\"2025-03-19T13:59:49.281Z\",\"properties\":{\"Quality\":{\"value\":null}}}],\"seq\":33}",
+        "payloadType": "json",
+        "x": 370,
+        "y": 580,
+        "wires": [
+            [
+                "c6e9e99a51f26a7a"
+            ]
+        ],
+        "info": "{\r\n  \"timestamp\": \"2025-03-13T14:13:46.806Z\",\r\n  \"metrics\": [\r\n    {\r\n      \"value\": true,\r\n      \"type\": \"Boolean\",\r\n      \"name\": \"BT00GWBT00130BLXXS1MON/DRPRDRE1.RcdMade:SPS\",\r\n      \"timestamp\": \"2025-03-11T16:09:53.302Z\"\r\n    },\r\n    {\r\n      \"value\": 1,\r\n      \"type\": \"Float\",\r\n      \"name\": \"YLTC1.OpCnt.INS.stVal:INS\",\r\n      \"timestamp\": \"2025-03-11T15:37:19.285Z\"\r\n    },\r\n    {\r\n      \"value\": 2,\r\n      \"type\": \"Float\",\r\n      \"name\": \"YLTC1.Mod.INC.st.Enum:INC\",\r\n      \"timestamp\": \"2025-03-11T15:37:19.285Z\"\r\n    },\r\n    {\r\n      \"value\": 0,\r\n      \"type\": \"Float\",\r\n      \"name\": \"SIML1.Tmp1.MV.mag.f:MV\",\r\n      \"timestamp\": \"2025-03-11T15:37:19.262Z\"\r\n    },\r\n    {\r\n      \"value\": 0,\r\n      \"type\": \"Int8\",\r\n      \"name\": \"YLTC1.TapChg.BSC.valWTr:BSC\",\r\n      \"timestamp\": \"2025-03-13T14:13:46.806Z\"\r\n    },\r\n    {\r\n      \"value\": false,\r\n      \"type\": \"Boolean\",\r\n      \"name\": \"CCGR1.CECtl.SPC.stVal:SPC\",\r\n      \"timestamp\": \"2025-03-13T14:13:46.806Z\"\r\n    },\r\n    {\r\n      \"value\": true,\r\n      \"type\": \"Boolean\",\r\n      \"name\": \"GGIO2.Ind1.SPS.stVal:SPS\",\r\n      \"timestamp\": \"2025-03-19T13:59:49.281Z\",\r\n      \"properties\": {\r\n        \"Quality\": {\r\n          \"value\": null\r\n        }\r\n      }\r\n    }\r\n  ],\r\n  \"seq\": 33\r\n}"
+    },
+    {
+        "id": "fdc384b82313e13a",
+        "type": "debug",
+        "z": "6d8020a1a7cc2b60",
+        "name": "debug 22",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 880,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "3a3e81fb5b3bdc16",
+        "type": "debug",
+        "z": "6d8020a1a7cc2b60",
+        "name": "debug 23",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 520,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "aaf57c04a4c724c2",
+        "type": "switch",
+        "z": "e732ea44545b6370",
+        "name": "RcdMade?",
+        "property": "payload.PublishMeasurementValueRequest[0].name",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "cont",
+                "v": "BT00GWBT00130BLXXS1MON/DRPRDRE1.RcdMade:SPS",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 310,
+        "y": 460,
+        "wires": [
+            [
+                "9343621d14995ea0"
+            ]
+        ]
+    },
+    {
+        "id": "9343621d14995ea0",
+        "type": "switch",
+        "z": "e732ea44545b6370",
+        "name": "RcdMade==1",
+        "property": "payload.PublishMeasurementValueRequest[0].value",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "1",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 480,
+        "y": 460,
+        "wires": [
+            [
+                "35c236caf85fb476"
+            ]
+        ]
+    },
+    {
+        "id": "35c236caf85fb476",
+        "type": "delay",
+        "z": "e732ea44545b6370",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "60",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 660,
+        "y": 460,
+        "wires": [
+            [
+                "e03c90ef5c70faa3"
+            ]
+        ]
+    },
+    {
+        "id": "69c891ed98b722e3",
+        "type": "exec",
+        "z": "e732ea44545b6370",
+        "command": "C:\\Users\\derol\\Documents\\ArchiveSyncService_v5.3.1\\startRTU500ArchiveSync.bat",
+        "addpay": "",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "Fetch from BT00",
+        "x": 850,
+        "y": 620,
+        "wires": [
+            [
+                "a670fa5b169743ce"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "15252f5253c2f1cd",
+        "type": "mqtt in",
+        "z": "e732ea44545b6370",
+        "name": "",
+        "topic": "CIM_Analytics",
+        "qos": "1",
+        "datatype": "auto-detect",
+        "broker": "7fb604f9461f5267",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 150,
+        "y": 460,
+        "wires": [
+            [
+                "aaf57c04a4c724c2"
+            ]
+        ]
+    },
+    {
+        "id": "a670fa5b169743ce",
+        "type": "debug",
+        "z": "e732ea44545b6370",
+        "name": "debug 24",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1100,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "3b896522d3ee67dc",
+        "type": "exec",
+        "z": "e732ea44545b6370",
+        "command": "C:\\Users\\derol\\Documents\\ArchiveSyncService_v5.3.1\\startRTU500ArchiveSync.bat",
+        "addpay": "",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "Fetch from BT01",
+        "x": 850,
+        "y": 700,
+        "wires": [
+            [
+                "9e213be5ca2e0e37"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "e03c90ef5c70faa3",
+        "type": "switch",
+        "z": "e732ea44545b6370",
+        "name": "Station?",
+        "property": "payload.PublishMeasurementValueRequest[0].name",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "cont",
+                "v": "BT00",
+                "vt": "str"
+            },
+            {
+                "t": "cont",
+                "v": "BT01",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 540,
+        "y": 660,
+        "wires": [
+            [
+                "69c891ed98b722e3",
+                "399fbfd798ff7997"
+            ],
+            [
+                "3b896522d3ee67dc",
+                "6add7030ef60cf5d"
+            ]
+        ]
+    },
+    {
+        "id": "9e213be5ca2e0e37",
+        "type": "debug",
+        "z": "e732ea44545b6370",
+        "name": "debug 25",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1100,
+        "y": 700,
+        "wires": []
+    },
+    {
+        "id": "399fbfd798ff7997",
+        "type": "debug",
+        "z": "e732ea44545b6370",
+        "name": "debug 26",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 840,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "6add7030ef60cf5d",
+        "type": "debug",
+        "z": "e732ea44545b6370",
+        "name": "debug 27",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 830,
+        "y": 780,
+        "wires": []
+    },
+    {
+        "id": "09e6eea12e58626d",
+        "type": "mqtt in",
+        "z": "3ab678530e130ee8",
+        "d": true,
+        "name": "",
+        "topic": "CIM_Analytics",
+        "qos": "1",
+        "datatype": "auto-detect",
+        "broker": "7fb604f9461f5267",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 170,
+        "y": 280,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "edf3e5f40cf9b4a8",
+        "type": "switch",
+        "z": "3ab678530e130ee8",
+        "name": "",
+        "property": "payload.name",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "cont",
+                "v": "EK1_A32LD0/PCGAPC1.CntVal1.actVal[ST]",
+                "vt": "str"
+            },
+            {
+                "t": "cont",
+                "v": "EK1_A32DR/RDRE1.RcdMade.stVal[ST]",
+                "vt": "str"
+            },
+            {
+                "t": "cont",
+                "v": "EK1_A32DR/RDRE1.FltNum.stVal[ST]",
+                "vt": "str"
+            },
+            {
+                "t": "cont",
+                "v": "BT00GWBT00130BLXXS1MON/DRPRDRE1.RcdMade",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 4,
+        "x": 430,
+        "y": 260,
+        "wires": [
+            [
+                "93d692751be98682",
+                "7a6bdc47936704a6"
+            ],
+            [
+                "2e1cc8d584dfcf5d",
+                "431048f893cbdc69"
+            ],
+            [
+                "9afbec44c7ca3c38",
+                "eb6c27bb362b619c"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "431048f893cbdc69",
+        "type": "influxdb out",
+        "z": "3ab678530e130ee8",
+        "influxdb": "636860953088bb4d",
+        "name": "EK1_A32DR/RDRE1.RcdMade.stVal",
+        "measurement": "spBv1.0/BT00/NDATA/GW2.0:EK1_A32DR/RDRE1.RcdMade.stVal",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "RnD",
+        "bucket": "sensors",
+        "x": 890,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "2e1cc8d584dfcf5d",
+        "type": "debug",
+        "z": "3ab678530e130ee8",
+        "name": "debug 32",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 800,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "9afbec44c7ca3c38",
+        "type": "debug",
+        "z": "3ab678530e130ee8",
+        "name": "debug 33",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 800,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "eb6c27bb362b619c",
+        "type": "influxdb out",
+        "z": "3ab678530e130ee8",
+        "influxdb": "636860953088bb4d",
+        "name": "EK1_A32DR/RDRE1.FltNum.stVal",
+        "measurement": "spBv1.0/BT00/NDATA/GW2.0:EK1_A32DR/RDRE1.FltNum.stVal",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "RnD",
+        "bucket": "sensors",
+        "x": 880,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "93d692751be98682",
+        "type": "debug",
+        "z": "3ab678530e130ee8",
+        "name": "debug 35",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 800,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "7a6bdc47936704a6",
+        "type": "influxdb out",
+        "z": "3ab678530e130ee8",
+        "influxdb": "636860953088bb4d",
+        "name": "EK1_A32LD0/PCGAPC1.CntVal1.actVal",
+        "measurement": "spBv1.0/BT00/NDATA/GW2.0:EK1_A32LD0/PCGAPC1.CntVal1.actVal",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "RnD",
+        "bucket": "sensors",
+        "x": 900,
+        "y": 180,
+        "wires": []
+    }
+]

@@ -19,9 +19,9 @@ public class MqttConfig {
 
     @Bean
     public MqttPahoMessageDrivenChannelAdapter mqttAdapter() {
-        String brokerUrl = "tcp://your-mqtt-broker-url:1883";
+        String brokerUrl = "tcp://127.0.0.1:1883";
         String clientId = "mqttJsonValidator";
-        String[] topics = {"your/topic"};
+        String[] topics = {"CIM_Analytics"};
 
         MqttPahoMessageDrivenChannelAdapter adapter =
                 new MqttPahoMessageDrivenChannelAdapter(brokerUrl, clientId, topics);
